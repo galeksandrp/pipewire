@@ -146,9 +146,9 @@ sbc_channel_modes[] = {
 
 static const struct a2dp_codec_config
 sbc_xq_channel_modes[] = {
-	{ SBC_CHANNEL_MODE_DUAL_CHANNEL, 2, 2 },
-	{ SBC_CHANNEL_MODE_JOINT_STEREO, 2, 1 },
-	{ SBC_CHANNEL_MODE_STEREO,       2, 0 },
+	{ SBC_CHANNEL_MODE_JOINT_STEREO, 2, 2 },
+	{ SBC_CHANNEL_MODE_STEREO,       2, 1 },
+	{ SBC_CHANNEL_MODE_DUAL_CHANNEL, 2, 0 },
 };
 
 static int codec_select_config(const struct a2dp_codec *codec, uint32_t flags,
@@ -263,10 +263,7 @@ static int codec_caps_preference_cmp(const struct a2dp_codec *codec, const void 
 
 	PREFER_BOOL(conf->frequency & (SBC_SAMPLING_FREQ_48000 | SBC_SAMPLING_FREQ_44100));
 
-	if (xq)
-		PREFER_BOOL(conf->channel_mode & SBC_CHANNEL_MODE_DUAL_CHANNEL);
-	else
-		PREFER_BOOL(conf->channel_mode & SBC_CHANNEL_MODE_JOINT_STEREO);
+	PREFER_BOOL(conf->channel_mode & SBC_CHANNEL_MODE_JOINT_STEREO);
 
 	PREFER_EXPR(conf->max_bitpool);
 
@@ -665,7 +662,7 @@ const struct a2dp_codec a2dp_codec_sbc_xq = {
 	.id = SPA_BLUETOOTH_AUDIO_CODEC_SBC_XQ,
 	.codec_id = A2DP_CODEC_SBC,
 	.name = "sbc_xq",
-	.description = "SBC-XQ",
+	.description = "SBC-XQ J",
 	.fill_caps = codec_fill_caps,
 	.select_config = codec_select_config,
 	.enum_config = codec_enum_config,

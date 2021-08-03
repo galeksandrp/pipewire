@@ -637,7 +637,7 @@ again:
 	if (written == -EAGAIN) {
 		spa_log_trace(this->log, NAME" %p: delay flush", this);
 		if (now_time - this->last_error > SPA_NSEC_PER_SEC / 2) {
-			this->codec->reduce_bitpool(this->codec_data);
+			spa_log_error(this->log, "spa/plugins/bluez5/a2dp-sink.c reduce_bitpool() current bitpool %i", this->codec->reduce_bitpool(this->codec_data));
 			this->last_error = now_time;
 		}
 		this->need_flush = true;
@@ -652,7 +652,7 @@ again:
 	else if (written > 0) {
 		reset_buffer(this);
 		if (now_time - this->last_error > SPA_NSEC_PER_SEC) {
-			this->codec->increase_bitpool(this->codec_data);
+			spa_log_error(this->log, "spa/plugins/bluez5/a2dp-sink.c increase_bitpool() current bitpool %i", this->codec->increase_bitpool(this->codec_data));
 			this->last_error = now_time;
 		}
 		if (!spa_list_is_empty(&port->ready))
